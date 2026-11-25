@@ -25,6 +25,8 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*", "config/**/*", "LICENSE.txt", "README.md", "CHANGELOG.md"]
   spec.require_paths = ["lib"]
 
-  # Sem dependências de runtime: o Rails (activemodel) é opcional e só é
-  # integrado quando já estiver presente na aplicação.
+  # O Rails (activemodel) é opcional e só é integrado quando já estiver presente
+  # na aplicação. BigDecimal é gem padrão do Ruby, mas virou bundled gem no 3.4,
+  # então precisa ser declarada para funcionar sob o Bundler.
+  spec.add_dependency "bigdecimal", ">= 2.0"
 end

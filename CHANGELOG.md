@@ -6,6 +6,10 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 ## [Não lançado]
 
 ### Adicionado
+- `RailsBr::Pix::BRCode`: leitura e validação do "Pix copia e cola" (TLV/EMV, CRC16, campos obrigatórios e
+  regras do Pix), com `key`, `url`, `name`, `city`, `amount` (`BigDecimal`), `txid`, `info`, `static?` e `dynamic?`.
+- `RailsBr::Pix::CRC16` (CCITT-FALSE) e `RailsBr::Pix::TLV`.
+- Dependência de runtime em `bigdecimal` (bundled gem a partir do Ruby 3.4).
 - `RailsBr::Pix::Key`: detecção do tipo (`:cpf`, `:cnpj`, `:phone`, `:email`, `:evp`) e validação estrita
   da chave Pix, conforme os manuais do Banco Central.
 - Validador ActiveModel `validates :pix_key, pix_key: true`, com mensagens em `pt-BR` e `en`.
