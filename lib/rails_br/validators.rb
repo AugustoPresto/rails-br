@@ -8,3 +8,4 @@ RailsBr::Locale.install!
 
 require_relative "validators/cpf_validator"
 require_relative "validators/cnpj_validator"
+require_relative "validators/pix_key_validator"

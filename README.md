@@ -63,12 +63,30 @@ RailsBr::CNPJ.parse!("123")                 # => raises RailsBr::InvalidValueErr
 O cálculo segue a Receita Federal: módulo 11, pesos de 2 a 9 e valor ASCII de cada caractere
 menos 48. Os 2 dígitos verificadores são sempre numéricos.
 
+### Chave Pix
+
+```ruby
+key = RailsBr::Pix::Key.new("+5561912345678")
+key.valid?  # => true
+key.type    # => :phone   (:cpf, :cnpj, :phone, :email ou :evp)
+
+RailsBr::Pix::Key.type_of("123e4567-e12b-12d1-a456-426655440000")  # => :evp
+RailsBr::Pix::Key.valid?("111.444.777-35")  # => false (use só os dígitos)
+RailsBr::Pix::Key.parse!("lixo")            # => raises RailsBr::InvalidValueError
+```
+
+A validação é **estrita**, como no DICT do Banco Central, e não normaliza a chave: CPF e CNPJ sem
+máscara; e-mail e chave aleatória em minúsculas; telefone no formato internacional E.164. O `+55` não é
+exigido pela especificação. Os formatos seguem o Manual Operacional do DICT (v8.5), a API do DICT
+(v2.13.0) e o Manual de Padrões para Iniciação do Pix (v2.10.0).
+
 ### Validação no ActiveModel / Rails
 
 ```ruby
 class Company < ApplicationRecord
   validates :cpf, presence: true, cpf: true
   validates :cnpj, presence: true, cnpj: true
+  validates :pix_key, presence: true, pix_key: true
 end
 ```
 

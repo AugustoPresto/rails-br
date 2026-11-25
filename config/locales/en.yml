@@ -3,3 +3,4 @@ en:
     messages:
       invalid_cpf: "is not a valid CPF"
       invalid_cnpj: "is not a valid CNPJ"
+      invalid_pix_key: "is not a valid Pix key"
