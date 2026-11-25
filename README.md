@@ -46,11 +46,29 @@ RailsBr::CPF.parse!("123")             # => raises RailsBr::InvalidValueError
 A entrada é tolerante: aceita máscara e espaços. Apenas `.`, `-` e espaços são removidos.
 Zeros à esquerda perdidos em um `Integer` **não** são completados: use `String`.
 
+### CNPJ (numérico e alfanumérico)
+
+```ruby
+cnpj = RailsBr::CNPJ.new("12.ABC.345/01DE-35")
+cnpj.valid?         # => true
+cnpj.alphanumeric?  # => true
+cnpj.formatted      # => "12.ABC.345/01DE-35"
+cnpj.to_s           # => "12ABC34501DE35"
+
+RailsBr::CNPJ.valid?("11.222.333/0001-81")  # => true (formato numérico)
+RailsBr::CNPJ.valid?("12.abc.345/01de-35")  # => true (minúsculas são normalizadas)
+RailsBr::CNPJ.parse!("123")                 # => raises RailsBr::InvalidValueError
+```
+
+O cálculo segue a Receita Federal: módulo 11, pesos de 2 a 9 e valor ASCII de cada caractere
+menos 48. Os 2 dígitos verificadores são sempre numéricos.
+
 ### Validação no ActiveModel / Rails
 
 ```ruby
-class Person < ApplicationRecord
+class Company < ApplicationRecord
   validates :cpf, presence: true, cpf: true
+  validates :cnpj, presence: true, cnpj: true
 end
 ```
 
