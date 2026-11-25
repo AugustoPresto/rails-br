@@ -4,8 +4,12 @@ module RailsBr
   # Integração com o Rails. Só é carregada quando o Rails já está presente.
   class Railtie < ::Rails::Railtie
     initializer "rails_br.i18n" do
-      locales = Dir[File.expand_path("../../config/locales/*.yml", __dir__)]
-      ::I18n.load_path.concat(locales)
+      RailsBr::Locale.install!
+    end
+
+    # Os validadores só são registrados se o ActiveModel estiver disponível.
+    initializer "rails_br.validators" do
+      require "rails_br/validators" if defined?(ActiveModel)
     end
   end
 end
