@@ -9,7 +9,9 @@ require_relative "rails_br/error"
 # Cada módulo é carregado sob demanda: `RailsBr::CPF` só é lido do disco no
 # primeiro uso, ou explicitamente com `require "rails_br/cpf"`.
 module RailsBr
+  autoload :Document, "rails_br/document"
   autoload :CPF, "rails_br/cpf"
+  autoload :CNPJ, "rails_br/cnpj"
   autoload :Locale, "rails_br/locale"
 end
 

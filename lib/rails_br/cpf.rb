@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "error"
+require_relative "document"
 
 module RailsBr
   # Value object imutável para o CPF (Cadastro de Pessoas Físicas).
@@ -15,37 +15,13 @@ module RailsBr
   #   cpf.digits     # => "11144477735"
   #   cpf.formatted  # => "111.444.777-35"
   #   RailsBr::CPF.valid?("111.111.111-11") # => false
-  class CPF
+  class CPF < Document
     LENGTH = 11
     SEPARATORS = /[.\-\s]/.freeze
     DIGITS_ONLY = /\A\d{#{LENGTH}}\z/.freeze
 
-    # @param value [#to_s, nil]
-    # @return [Boolean]
-    def self.valid?(value)
-      new(value).valid?
-    end
-
-    # Como {.new}, mas levanta {InvalidValueError} se o CPF for inválido.
-    #
-    # @param value [#to_s, nil]
-    # @return [CPF]
-    # @raise [InvalidValueError]
-    def self.parse!(value)
-      cpf = new(value)
-      raise InvalidValueError, "CPF inválido: #{value.inspect}" unless cpf.valid?
-
-      cpf
-    end
-
-    # @return [String] somente os caracteres restantes após remover a máscara
-    attr_reader :digits
-
-    # @param value [#to_s, nil]
-    def initialize(value)
-      @digits = value.to_s.gsub(SEPARATORS, "").freeze
-      freeze
-    end
+    # @return [String] os dígitos, sem máscara
+    alias digits value
 
     # Um CPF é válido quando tem 11 dígitos, não é uma sequência repetida
     # (como 111.111.111-11) e os dois dígitos verificadores conferem.
@@ -63,20 +39,6 @@ module RailsBr
       return unless valid?
 
       "#{digits[0, 3]}.#{digits[3, 3]}.#{digits[6, 3]}-#{digits[9, 2]}"
-    end
-
-    # @return [String]
-    def to_s
-      digits
-    end
-
-    def ==(other)
-      other.is_a?(self.class) && digits == other.digits
-    end
-    alias eql? ==
-
-    def hash
-      [self.class, digits].hash
     end
 
     private
