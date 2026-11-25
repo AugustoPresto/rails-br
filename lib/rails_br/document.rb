@@ -24,9 +24,17 @@ module RailsBr
     # @raise [InvalidValueError]
     def self.parse!(value)
       document = new(value)
-      raise InvalidValueError, "#{name.split('::').last} inválido: #{value.inspect}" unless document.valid?
+      raise InvalidValueError, invalid_message(value) unless document.valid?
 
       document
+    end
+
+    # Mensagem do erro levantado por {.parse!}. As subclasses podem sobrescrever.
+    #
+    # @param value [#to_s, nil]
+    # @return [String]
+    def self.invalid_message(value)
+      "#{name.split('::').last} inválido: #{value.inspect}"
     end
 
     # @return [String] o valor sem máscara (e, no CNPJ, em maiúsculas)
