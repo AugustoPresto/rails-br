@@ -16,5 +16,6 @@ if RUBY_VERSION >= "3.3"
     gem "rubocop", require: false
     gem "rubocop-rake", require: false
     gem "rubocop-rspec", require: false
+    gem "yard", require: false
   end
 end

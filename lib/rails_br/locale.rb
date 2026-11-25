@@ -6,6 +6,7 @@ module RailsBr
   # O Railtie faz isso automaticamente no Rails; fora dele, `require
   # "rails_br/validators"` também registra os arquivos.
   module Locale
+    # Arquivos de tradução incluídos na gem (`pt-BR` e `en`).
     PATHS = Dir[File.expand_path("../../config/locales/*.yml", __dir__)].sort.freeze
 
     # Idempotente.

@@ -12,7 +12,9 @@ module RailsBr
     #   RailsBr::Pix::TLV.parse("000201010211")
     #   # => [["00", "01"], ["01", "11"]]
     module TLV
+      # Tamanho do cabeçalho de cada objeto (2 dígitos de ID e 2 de tamanho).
       HEADER_LENGTH = 4
+      # Dois dígitos, usado no ID e no tamanho.
       DIGITS = /\A\d{2}\z/.freeze
 
       # @param string [String]

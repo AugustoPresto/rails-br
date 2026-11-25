@@ -33,12 +33,18 @@ module RailsBr
     #   key.type    # => :phone
     #   RailsBr::Pix::Key.new("111.444.777-35").valid? # => false (use só dígitos)
     class Key < Document
+      # Tipos de chave Pix, na ordem em que são testados.
       TYPES = %i[cpf cnpj phone email evp].freeze
+      # Tamanho máximo de uma chave Pix.
       MAX_LENGTH = 77
 
+      # CPF como chave: 11 dígitos, sem máscara.
       CPF_FORMAT = /\A\d{11}\z/.freeze
+      # CNPJ como chave: 14 caracteres, numérico ou alfanumérico, sem máscara.
       CNPJ_FORMAT = /\A[0-9A-Z]{12}\d{2}\z/.freeze
+      # Telefone no formato internacional E.164.
       PHONE_FORMAT = /\A\+[1-9]\d{1,14}\z/.freeze
+      # Chave aleatória: UUID com hífens, em minúsculas.
       EVP_FORMAT = /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/.freeze
       # Expressão regular da API do DICT para e-mail (somente minúsculas).
       EMAIL_FORMAT = %r{
@@ -53,6 +59,8 @@ module RailsBr
         new(value).type
       end
 
+      # @param value [#to_s, nil]
+      # @return [String] a mensagem de {.parse!}
       def self.invalid_message(value)
         "Chave Pix inválida: #{value.inspect}"
       end

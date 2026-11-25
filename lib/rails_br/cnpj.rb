@@ -26,12 +26,17 @@ module RailsBr
   #   cnpj.formatted      # => "12.ABC.345/01DE-35"
   #   RailsBr::CNPJ.valid?("11.222.333/0001-81") # => true
   class CNPJ < Document
+    # Tamanho do CNPJ sem máscara.
     LENGTH = 14
+    # Posições da raiz e da ordem; os 2 caracteres seguintes são os dígitos verificadores.
     BASE_LENGTH = 12
+    # Caracteres de máscara removidos na entrada.
     SEPARATORS = %r{[./\-\s]}.freeze
     # 12 posições alfanuméricas + 2 dígitos verificadores numéricos.
     FORMAT = /\A[0-9A-Z]{#{BASE_LENGTH}}\d{2}\z/.freeze
+    # Valor subtraído do código ASCII de cada caractere no cálculo do dígito verificador.
     ASCII_OFFSET = 48
+    # Pesos do módulo 11, aplicados de forma cíclica da direita para a esquerda.
     WEIGHTS = (2..9).to_a.freeze
 
     # @return [Boolean] se há letras na raiz ou na ordem (formato alfanumérico)
