@@ -43,6 +43,7 @@ module RailsBr
     # @param value [#to_s, nil]
     def initialize(value)
       @value = normalize(value.to_s).freeze
+      prepare
       freeze
     end
 
@@ -65,5 +66,9 @@ module RailsBr
     def normalize(string)
       string.gsub(self.class::SEPARATORS, "")
     end
+
+    # Gancho para as subclasses calcularem dados derivados antes de o objeto
+    # ser congelado.
+    def prepare; end
   end
 end

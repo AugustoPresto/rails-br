@@ -80,6 +80,27 @@ máscara; e-mail e chave aleatória em minúsculas; telefone no formato internac
 exigido pela especificação. Os formatos seguem o Manual Operacional do DICT (v8.5), a API do DICT
 (v2.13.0) e o Manual de Padrões para Iniciação do Pix (v2.10.0).
 
+### BR Code ("Pix copia e cola")
+
+```ruby
+code = RailsBr::Pix::BRCode.new(payload)
+code.valid?     # => true (estrutura, CRC16 e regras do Pix)
+code.static?    # => true se tem chave Pix; code.dynamic? se tem URL
+code.key        # => #<RailsBr::Pix::Key> (code.key.type => :evp)
+code.name       # => "Fulano de Tal"
+code.city       # => "BRASILIA"
+code.amount     # => BigDecimal("100.50") ou nil
+code.txid       # => "ABC123" (nil quando o payload traz "***")
+
+RailsBr::Pix::BRCode.new("lixo").error  # => motivo da invalidez
+RailsBr::Pix::BRCode.parse!(payload)    # => raises RailsBr::InvalidValueError (com o motivo)
+RailsBr::Pix::CRC16.checksum("...6304") # => "1D3D"
+```
+
+Lê QR Codes estáticos, dinâmicos e com recorrência. O CRC16 (CCITT-FALSE) e todos os exemplos dos
+manuais do Banco Central (Manual do BR Code v2.0.0 e Manual de Padrões para Iniciação do Pix v2.10.0)
+estão cobertos nos testes. Espaços e quebras de linha nas pontas são ignorados.
+
 ### Validação no ActiveModel / Rails
 
 ```ruby
