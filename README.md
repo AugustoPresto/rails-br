@@ -26,6 +26,38 @@ Sucessora moderna da [Brazilian Rails](https://github.com/tapajos/brazilian-rail
 | 0.3.0 | CEP (máscara e formato), dias úteis e feriados |
 | 0.4.0 | Boleto e linha digitável |
 
+## Uso
+
+### CPF
+
+```ruby
+require "rails_br"
+
+cpf = RailsBr::CPF.new("111.444.777-35")
+cpf.valid?      # => true
+cpf.digits      # => "11144477735"
+cpf.formatted   # => "111.444.777-35"
+
+RailsBr::CPF.valid?("111.111.111-11")  # => false (sequência repetida)
+RailsBr::CPF.valid?(nil)               # => false
+RailsBr::CPF.parse!("123")             # => raises RailsBr::InvalidValueError
+```
+
+A entrada é tolerante: aceita máscara e espaços. Apenas `.`, `-` e espaços são removidos.
+Zeros à esquerda perdidos em um `Integer` **não** são completados: use `String`.
+
+### Validação no ActiveModel / Rails
+
+```ruby
+class Person < ApplicationRecord
+  validates :cpf, presence: true, cpf: true
+end
+```
+
+No Rails o validador e as traduções (`pt-BR` e `en`) são carregados automaticamente.
+Fora do Rails, use `require "rails_br/validators"` (requer `activemodel`).
+Valores em branco são ignorados; combine com `presence: true` para exigir o campo.
+
 ## Instalação
 
 Ainda não publicada no RubyGems. Por enquanto, via Git:

@@ -6,9 +6,11 @@ require_relative "rails_br/error"
 # Helpers brasileiros para Ruby e Rails.
 #
 # O núcleo é Ruby puro e não altera classes nativas (sem monkey patching).
-# Cada módulo (CPF, CNPJ, Pix, ...) é carregado sob demanda, por exemplo
-# `require "rails_br/cpf"`.
+# Cada módulo é carregado sob demanda: `RailsBr::CPF` só é lido do disco no
+# primeiro uso, ou explicitamente com `require "rails_br/cpf"`.
 module RailsBr
+  autoload :CPF, "rails_br/cpf"
+  autoload :Locale, "rails_br/locale"
 end
 
 require_relative "rails_br/railtie" if defined?(Rails::Railtie)
