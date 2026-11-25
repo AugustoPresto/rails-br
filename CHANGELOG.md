@@ -6,6 +6,9 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 ## [Não lançado]
 
 ### Adicionado
+- `RailsBr::Pix::BRCode.static`: geração do BR Code estático ("Pix copia e cola") com valor (`BigDecimal`,
+  `Integer` ou `String`, nunca `Float`), `txid` e `infoAdicional`; remove acentos de nome e cidade e valida
+  tamanhos. Reproduz byte a byte o exemplo oficial do Banco Central.
 - `RailsBr::Pix::BRCode`: leitura e validação do "Pix copia e cola" (TLV/EMV, CRC16, campos obrigatórios e
   regras do Pix), com `key`, `url`, `name`, `city`, `amount` (`BigDecimal`), `txid`, `info`, `static?` e `dynamic?`.
 - `RailsBr::Pix::CRC16` (CCITT-FALSE) e `RailsBr::Pix::TLV`.

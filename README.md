@@ -97,6 +97,24 @@ RailsBr::Pix::BRCode.parse!(payload)    # => raises RailsBr::InvalidValueError (
 RailsBr::Pix::CRC16.checksum("...6304") # => "1D3D"
 ```
 
+Para **gerar** o "Pix copia e cola" de uma chave fixa (QR Code estático):
+
+```ruby
+code = RailsBr::Pix::BRCode.static(
+  key: "123e4567-e12b-12d1-a456-426655440000",
+  name: "Fulano de Tal",
+  city: "Brasília",              # acentos são removidos
+  amount: BigDecimal("100.50"),  # opcional; BigDecimal, Integer ou String, nunca Float
+  txid: "PEDIDO42",              # opcional (1 a 25 letras ou dígitos)
+  info: "Pedido 42"              # opcional
+)
+code.to_s    # => "00020126580014br.gov.bcb.pix0136...6304XXXX"
+code.valid?  # => true
+```
+
+Sem `txid`, o payload leva `***`. Com os dados do exemplo oficial do Banco Central, o payload gerado é
+idêntico, byte a byte, ao do manual. Dados inválidos levantam `RailsBr::InvalidValueError`.
+
 Lê QR Codes estáticos, dinâmicos e com recorrência. O CRC16 (CCITT-FALSE) e todos os exemplos dos
 manuais do Banco Central (Manual do BR Code v2.0.0 e Manual de Padrões para Iniciação do Pix v2.10.0)
 estão cobertos nos testes. Espaços e quebras de linha nas pontas são ignorados.
