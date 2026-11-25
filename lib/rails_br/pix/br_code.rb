@@ -21,6 +21,34 @@ module RailsBr
     #   code.amount    # => nil (ou um BigDecimal)
     class BRCode < Document
       autoload :Parser, "rails_br/pix/br_code/parser"
+      autoload :Builder, "rails_br/pix/br_code/builder"
+
+      # Gera um BR Code **estático** (o "Pix copia e cola" de uma chave fixa).
+      #
+      # O nome e a cidade perdem os acentos e precisam ser ASCII imprimível
+      # (nome até 25 caracteres, cidade até 15). O valor aceita `BigDecimal`,
+      # `Integer` ou `String` com ponto decimal, nunca `Float`, com até 2 casas.
+      # Sem `txid`, o payload leva `***`, que indica a ausência de identificador.
+      #
+      # @example
+      #   code = RailsBr::Pix::BRCode.static(
+      #     key: "123e4567-e12b-12d1-a456-426655440000",
+      #     name: "Fulano de Tal", city: "Brasília", amount: BigDecimal("100.50"), txid: "PEDIDO42"
+      #   )
+      #   code.to_s    # => "00020126580014br.gov.bcb.pix0136..."
+      #   code.valid?  # => true
+      #
+      # @param key [String, Pix::Key] a chave Pix do recebedor
+      # @param name [String] nome do recebedor (1 a 25 caracteres)
+      # @param city [String] cidade do recebedor (1 a 15 caracteres)
+      # @param amount [BigDecimal, Integer, String, nil] valor; `nil` deixa o pagador informar
+      # @param txid [String, nil] identificador da transação (1 a 25 letras ou dígitos)
+      # @param info [String, nil] descrição livre mostrada ao pagador
+      # @return [BRCode]
+      # @raise [InvalidValueError] se algum dado for inválido
+      def self.static(key:, name:, city:, amount: nil, txid: nil, info: nil)
+        new(Builder.call(key: key, name: name, city: city, amount: amount, txid: txid, info: info))
+      end
 
       # Como {.new}, mas levanta {InvalidValueError}, com o motivo, se for inválido.
       #

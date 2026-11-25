@@ -22,6 +22,9 @@ Style/StringLiterals:
 Style/Documentation:
   Enabled: false
 
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
