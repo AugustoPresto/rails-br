@@ -1,0 +1,34 @@
+plugins:
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  # Piso de compatibilidade da gem: Ruby 2.7. O RuboCop avisa se alguém usar
+  # sintaxe mais nova (pattern matching, endless methods, Data.define...).
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - "gemfiles/**/*"
+    - "vendor/**/*"
+
+Naming/FileName:
+  Exclude:
+    - "lib/rails-br.rb" # alias para o require automático do Bundler
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+    - "*.gemspec"
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/MultipleExpectations:
+  Max: 3
