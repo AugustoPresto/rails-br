@@ -7,8 +7,7 @@ SimpleCov.start do
   enable_coverage :branch
   add_filter "/spec/"
   add_filter "/gemfiles/"
-  # Sobe para 95 quando os primeiros módulos entrarem (0.1.0).
-  minimum_coverage 90
+  minimum_coverage line: 95, branch: 90
 end
 
 # Nos gemfiles do Appraisal o Rails está presente; no Ruby puro, não.

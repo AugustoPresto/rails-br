@@ -2,10 +2,11 @@
 
 [![CI](https://github.com/AugustoPresto/rails-br/actions/workflows/ci.yml/badge.svg)](https://github.com/AugustoPresto/rails-br/actions/workflows/ci.yml)
 
-Helpers brasileiros para Ruby e Rails: CPF/CNPJ (incluindo o CNPJ alfanumérico), Pix, moeda e CEP.
+Helpers brasileiros para Ruby e Rails: CPF, CNPJ (incluindo o alfanumérico) e Pix (chaves e BR Code).
+Moeda, CEP, feriados e boleto estão no roadmap.
 Sucessora moderna da [Brazilian Rails](https://github.com/tapajos/brazilian-rails), arquivada desde 2018.
 
-> **Status:** em desenvolvimento (pré-0.1.0). A API ainda não é estável.
+> **Status:** versão 0.1.0. A API pode mudar até a 1.0, seguindo o [SemVer](https://semver.org/lang/pt-BR/).
 
 ## Princípios
 

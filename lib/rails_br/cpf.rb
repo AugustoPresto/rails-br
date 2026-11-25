@@ -16,8 +16,11 @@ module RailsBr
   #   cpf.formatted  # => "111.444.777-35"
   #   RailsBr::CPF.valid?("111.111.111-11") # => false
   class CPF < Document
+    # Tamanho do CPF sem máscara.
     LENGTH = 11
+    # Caracteres de máscara removidos na entrada.
     SEPARATORS = /[.\-\s]/.freeze
+    # Formato aceito depois de remover a máscara: exatamente 11 dígitos.
     DIGITS_ONLY = /\A\d{#{LENGTH}}\z/.freeze
 
     # @return [String] os dígitos, sem máscara

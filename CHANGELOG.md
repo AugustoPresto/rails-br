@@ -5,6 +5,8 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+## [0.1.0] - 2026-11-25
+
 ### Adicionado
 - `RailsBr::Pix::BRCode.static`: geração do BR Code estático ("Pix copia e cola") com valor (`BigDecimal`,
   `Integer` ou `String`, nunca `Float`), `txid` e `infoAdicional`; remove acentos de nome e cidade e valida

@@ -52,11 +52,14 @@ module RailsBr
       value
     end
 
+    # @param other [Object]
+    # @return [Boolean] se `other` é do mesmo tipo e tem o mesmo valor
     def ==(other)
       other.is_a?(self.class) && value == other.value
     end
     alias eql? ==
 
+    # @return [Integer] consistente com {#==}, para uso como chave de `Hash`
     def hash
       [self.class, value].hash
     end

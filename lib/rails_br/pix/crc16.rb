@@ -9,9 +9,13 @@ module RailsBr
     # @example
     #   RailsBr::Pix::CRC16.checksum("123456789") # => "29B1"
     module CRC16
+      # Polinômio gerador (0x1021).
       POLYNOMIAL = 0x1021
+      # Valor inicial do registrador (0xFFFF).
       INITIAL_VALUE = 0xFFFF
+      # Máscara de 16 bits.
       MASK = 0xFFFF
+      # Bit mais significativo do registrador.
       TOP_BIT = 0x8000
 
       # @param data [String] os bytes sobre os quais calcular o CRC

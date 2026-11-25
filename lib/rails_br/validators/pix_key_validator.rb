@@ -9,6 +9,10 @@ module ActiveModel
     # @example
     #   validates :pix_key, pix_key: true
     class PixKeyValidator < EachValidator
+      # @param record [ActiveModel::Validations] o objeto validado
+      # @param attribute [Symbol] o atributo
+      # @param value [Object] o valor do atributo
+      # @return [void]
       def validate_each(record, attribute, value)
         return if value.blank?
         return if RailsBr::Pix::Key.valid?(value)
