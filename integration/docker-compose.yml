@@ -1,0 +1,33 @@
+name: rails-br-e2e
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    # Banco descartável: prioriza velocidade nos testes de carga.
+    command: postgres -c fsync=off -c full_page_writes=off -c max_connections=200
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      retries: 30
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -proot --silent"]
+      interval: 3s
+      retries: 60
+
+  app:
+    image: rails-br-e2e:ruby${RUBY_VERSION:-3.4}-rails${RAILS_VERSION:-8.0}
+    build:
+      context: .
+      args:
+        RUBY_VERSION: ${RUBY_VERSION:-3.4}
+        RAILS_VERSION: ${RAILS_VERSION:-8.0}
+        RAILS_BR_VERSION: ${RAILS_BR_VERSION:-0.2.1}
+    volumes:
+      - ./results:/results

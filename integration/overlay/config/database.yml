@@ -1,0 +1,13 @@
+# A conexão vem inteira do DATABASE_URL (PostgreSQL ou MySQL).
+default: &default
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

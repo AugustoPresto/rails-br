@@ -309,6 +309,12 @@ BUNDLE_GEMFILE=gemfiles/rails_7_1.gemfile bundle exec rspec
 O código precisa rodar em Ruby 2.7: nada de pattern matching, endless methods ou `Data.define`. O RuboCop
 (`TargetRubyVersion: 2.7`) avisa se isso acontecer.
 
+## Testes em aplicações reais
+
+A gem publicada é testada em apps Rails gerados com `rails new`, com PostgreSQL e MySQL, concorrência e carga de
+1 milhão de registros. Veja o [relatório](integration/REPORT.md), que inclui os problemas conhecidos, e
+[como reproduzir](integration/README.md).
+
 ## Contribuindo
 
 Issues e pull requests são bem-vindos. Prefira PRs pequenos e focados, com testes, e mensagens de commit no
