@@ -10,7 +10,7 @@ Helpers brasileiros para Ruby e Rails: **CPF**, **CNPJ** (inclusive o alfanumér
 **moeda** e **data**.
 Sucessora moderna da [Brazilian Rails](https://github.com/tapajos/brazilian-rails), arquivada desde 2018.
 
-> **Status:** versão 0.2.0. A API pode mudar até a 1.0, seguindo o [SemVer](https://semver.org/lang/pt-BR/).
+> **Status:** versão 0.2.1. A API pode mudar até a 1.0, seguindo o [SemVer](https://semver.org/lang/pt-BR/).
 
 ## Por que esta gem
 

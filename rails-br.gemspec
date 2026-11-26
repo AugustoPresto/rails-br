@@ -27,5 +27,6 @@ Gem::Specification.new do |spec|
   # O Rails (activemodel) é opcional e só é integrado quando já estiver presente
   # na aplicação. BigDecimal é gem padrão do Ruby, mas virou bundled gem no 3.4,
   # então precisa ser declarada para funcionar sob o Bundler.
-  spec.add_dependency "bigdecimal", ">= 2.0"
+  # As séries 2.x a 4.x são aceitas; amplie o teto depois de testar uma nova.
+  spec.add_dependency "bigdecimal", ">= 2.0", "< 5"
 end
