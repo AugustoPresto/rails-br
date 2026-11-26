@@ -42,6 +42,7 @@ usar os validadores.
 | Chave Pix | `RailsBr::Pix::Key` | Detectar o tipo e validar (CPF, CNPJ, telefone, e-mail, chave aleatória) |
 | BR Code | `RailsBr::Pix::BRCode` | Ler, validar e gerar o "Pix copia e cola" |
 | Moeda (a partir da 0.2.0) | `RailsBr::Currency` | Ler e formatar valores em reais |
+| Data (a partir da 0.2.0) | `RailsBr::DateFormat` | Ler e formatar datas `dd/mm/aaaa` |
 | ActiveModel | `cpf`, `cnpj`, `pix_key` | Validadores com mensagens em `pt-BR` e `en` |
 
 Todas as classes são carregadas sob demanda: `require "rails_br"` registra tudo, e cada módulo só é lido do
@@ -171,6 +172,24 @@ RailsBr::Currency.format(BigDecimal("-1"), symbol: false)  # => "-1,00"
   rejeitados, sem adivinhar nem arredondar. Só `String` é lida.
 - **Formatação:** aceita `BigDecimal` ou `Integer`, nunca `Float`, com até 2 casas. Arredonde antes, com a
   regra adequada ao seu caso.
+
+### Data
+
+> Disponível no `main`; sai na versão 0.2.0.
+
+```ruby
+require "date"
+
+RailsBr::DateFormat.parse("31/12/2026")           # => #<Date 2026-12-31>
+RailsBr::DateFormat.parse("31/02/2026")           # => nil (data inexistente)
+RailsBr::DateFormat.parse!("31/12/26")            # => raises RailsBr::InvalidValueError
+RailsBr::DateFormat.format(Date.new(2026, 1, 5))  # => "05/01/2026"
+```
+
+- **Leitura:** `dd/mm/aaaa`, com dia e mês de 1 ou 2 dígitos. Ano com 2 dígitos, outros separadores, hora e
+  texto sobrando são rejeitados. Diferente do `Date.strptime`, nada é ignorado no fim do texto.
+- **Formatação:** aceita `Date` (ou `DateTime`, do qual só a data é usada). `Time` não é aceito: converta com
+  `to_date`, escolhendo o fuso antes.
 
 ### Validação no ActiveModel / Rails
 
