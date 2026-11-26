@@ -44,6 +44,7 @@ usar os validadores.
 | Moeda (a partir da 0.2.0) | `RailsBr::Currency` | Ler e formatar valores em reais |
 | Data (a partir da 0.2.0) | `RailsBr::DateFormat` | Ler e formatar datas `dd/mm/aaaa` |
 | ActiveModel | `cpf`, `cnpj`, `pix_key` | Validadores com mensagens em `pt-BR` e `en` |
+| Tipos (a partir da 0.2.0) | `:br_currency`, `:br_date` | Atributos que leem texto brasileiro, com validadores |
 
 Todas as classes são carregadas sob demanda: `require "rails_br"` registra tudo, e cada módulo só é lido do
 disco no primeiro uso.
@@ -207,6 +208,39 @@ No Rails, os validadores e as traduções (`pt-BR` e `en`) são carregados autom
 
 As mensagens ficam em `errors.messages.invalid_cpf`, `invalid_cnpj` e `invalid_pix_key`, e podem ser
 sobrescritas no `config/locales` da sua aplicação ou com `message:`.
+
+### Atributos `:br_currency` e `:br_date`
+
+> Disponível no `main`; sai na versão 0.2.0.
+
+```ruby
+class Order < ApplicationRecord
+  attribute :price, :br_currency
+  attribute :due_on, :br_date
+
+  validates :price, presence: true, br_currency: true
+  validates :due_on, br_date: true
+end
+
+order = Order.new(price: "R$ 1.234,56", due_on: "31/12/2026")
+order.price   # => BigDecimal("1234.56")
+order.due_on  # => #<Date 2026-12-31>
+
+order = Order.new(price: "abc", due_on: "31/02/2026")
+order.price   # => nil
+order.valid?  # => false, com "não é um valor em reais válido" no locale pt-BR
+```
+
+- Funcionam no `ActiveModel::Attributes` e no ActiveRecord, sobre colunas `decimal` e `date`. Fora do Rails, use
+  `require "rails_br/types"` e `require "rails_br/validators"`.
+- Texto inválido vira `nil`, então **use sempre os validadores**: eles examinam o valor digitado, e `allow_nil` ou
+  `allow_blank` não escondem o erro. Com `presence: true`, um texto inválido acusa também o campo em branco.
+- Texto é sempre lido no padrão brasileiro, inclusive em consultas: `where(due_on: "31/12/2026")` funciona, mas
+  `where(due_on: "2026-12-31")` não. Prefira passar um `Date`.
+- `<input type="date">` (`date_field`) envia `aaaa-mm-dd`, que o `:br_date` rejeita. Use `text_field` e preencha o
+  valor com `RailsBr::DateFormat.format(order.due_on)` ao editar um registro salvo. O mesmo vale para a moeda, com
+  `RailsBr::Currency.format`.
+- Na migração, defina a precisão da coluna (por exemplo `precision: 10, scale: 2`).
 
 ## Erros
 

@@ -11,5 +11,10 @@ module RailsBr
     initializer "rails_br.validators" do
       require "rails_br/validators" if defined?(ActiveModel)
     end
+
+    # Registra os tipos `:br_currency` e `:br_date`.
+    initializer "rails_br.types" do
+      require "rails_br/types" if defined?(ActiveModel)
+    end
   end
 end

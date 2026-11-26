@@ -24,6 +24,13 @@ RSpec.describe "RailsBr::Railtie", if: defined?(Rails::Railtie) do
     end.not_to(change { I18n.load_path.size })
   end
 
+  it "registra os tipos br_currency e br_date" do
+    require "active_model"
+    initializer("rails_br.types").run(Object.new)
+
+    expect(ActiveModel::Type.lookup(:br_date)).to be_a(RailsBr::Types::BrDate)
+  end
+
   it "carrega os validadores quando o ActiveModel está presente" do
     require "active_model"
     initializer("rails_br.validators").run(Object.new)
