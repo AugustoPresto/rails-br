@@ -13,6 +13,7 @@ module RailsBr
   autoload :CPF, "rails_br/cpf"
   autoload :CNPJ, "rails_br/cnpj"
   autoload :Pix, "rails_br/pix"
+  autoload :Currency, "rails_br/currency"
   autoload :Locale, "rails_br/locale"
 end
 
