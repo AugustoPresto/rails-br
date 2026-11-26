@@ -138,6 +138,22 @@ RSpec.describe RailsBr::Currency do
     end
   end
 
+  describe "escala" do
+    it "lê até o número de casas pedido", :aggregate_failures do
+      expect(described_class.parse("1,2345", scale: 4)).to eq(BigDecimal("1.2345"))
+      expect(described_class.parse!("1,2345", scale: 4)).to eq(BigDecimal("1.2345"))
+      expect(described_class.parse("1,23456", scale: 4)).to be_nil
+      expect(described_class.parse("1,5", scale: 0)).to be_nil
+    end
+
+    it "formata até o número de casas pedido, com ao menos 2", :aggregate_failures do
+      expect(described_class.format(BigDecimal("1.2345"), scale: 4)).to eq("R$ 1,2345")
+      expect(described_class.format(BigDecimal("1.5"), scale: 4)).to eq("R$ 1,50")
+      expect { described_class.format(BigDecimal("1.23456"), scale: 4) }
+        .to raise_error(RailsBr::InvalidValueError, /4 casas/)
+    end
+  end
+
   it "lê de volta tudo o que formata (500 valores aleatórios)" do
     random = Random.new(2026)
 

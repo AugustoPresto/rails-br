@@ -244,6 +244,9 @@ order.valid?  # => false, com "não é um valor em reais válido" no locale pt-B
   valor com `RailsBr::DateFormat.format(order.due_on)` ao editar um registro salvo. O mesmo vale para a moeda, com
   `RailsBr::Currency.format`.
 - Na migração, defina a precisão da coluna (por exemplo `precision: 10, scale: 2`).
+- São aceitas 2 casas decimais. Para colunas mais precisas (preço unitário, cotação), declare a mesma escala no
+  atributo: `attribute :unit_price, :br_currency, scale: 4`. Um valor já gravado com mais casas não impede
+  atualizar o restante do registro.
 
 ## Erros
 

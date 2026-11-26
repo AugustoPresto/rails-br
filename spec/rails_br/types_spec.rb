@@ -84,6 +84,21 @@ RSpec.describe "RailsBr::Types", if: defined?(ActiveModel) do
     end
   end
 
+  describe ":br_currency com escala" do
+    let(:scaled) { Class.new(model) { attribute :price, :br_currency, scale: 4 } }
+
+    it "aceita texto e BigDecimal até a escala", :aggregate_failures do
+      expect(scaled.new(price: "1,2345").price).to eq(BigDecimal("1.2345"))
+      expect(scaled.new(price: "1,2345")).to be_valid
+      expect(scaled.new(price: BigDecimal("1.2345"))).to be_valid
+    end
+
+    it "rejeita casas além da escala", :aggregate_failures do
+      expect(scaled.new(price: "1,23456").price).to be_nil
+      expect(scaled.new(price: "1,23456")).not_to be_valid
+    end
+  end
+
   describe ":br_date" do
     {
       "texto brasileiro" => "31/12/2026",
