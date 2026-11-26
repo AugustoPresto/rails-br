@@ -211,8 +211,14 @@ compatíveis:
 ## Fontes oficiais
 
 - Receita Federal: [perguntas e respostas sobre o CNPJ alfanumérico](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/perguntas-e-respostas/cnpj/cnpj-alfanumerico.pdf)
-- Banco Central: Manual de Padrões para Iniciação do Pix (v2.10.0), Manual do BR Code (v2.0.0), Manual Operacional do
-  DICT (v8.5) e API do DICT (v2.13.0)
+- Banco Central:
+  - [Manual de Padrões para Iniciação do Pix](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/II_ManualdePadroesparaIniciacaodoPix.pdf) (v2.10.0)
+  - [Manual do BR Code](https://www.bcb.gov.br/content/estabilidadefinanceira/spb_docs/ManualBRCode.pdf) (v2.0.1, que em relação à v2.0.0 só atualizou o link da especificação EMV)
+  - [Manual Operacional do DICT](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/X_ManualOperacionaldoDICT.pdf) (v8.5)
+  - [API do DICT](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/API-DICT.html) (v2.13.0)
+
+As versões indicadas são as consultadas no desenvolvimento. Os links apontam para a publicação vigente, que pode
+ser mais nova.
 
 ## Roadmap
 
