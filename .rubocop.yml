@@ -11,6 +11,7 @@ AllCops:
   Exclude:
     - "gemfiles/**/*"
     - "vendor/**/*"
+    - "integration/**/*" # apps de teste, fora do pacote da gem
 
 Naming/FileName:
   Exclude:
