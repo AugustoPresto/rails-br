@@ -41,6 +41,7 @@ usar os validadores.
 | CNPJ | `RailsBr::CNPJ` | Validar e formatar, no formato numérico e no alfanumérico |
 | Chave Pix | `RailsBr::Pix::Key` | Detectar o tipo e validar (CPF, CNPJ, telefone, e-mail, chave aleatória) |
 | BR Code | `RailsBr::Pix::BRCode` | Ler, validar e gerar o "Pix copia e cola" |
+| Moeda (a partir da 0.2.0) | `RailsBr::Currency` | Ler e formatar valores em reais |
 | ActiveModel | `cpf`, `cnpj`, `pix_key` | Validadores com mensagens em `pt-BR` e `en` |
 
 Todas as classes são carregadas sob demanda: `require "rails_br"` registra tudo, e cada módulo só é lido do
@@ -149,6 +150,28 @@ remover os acentos. Dados inválidos levantam `RailsBr::InvalidValueError`.
 > A gem **gera e lê** o payload, mas não desenha o QR Code. Use uma biblioteca de QR Code (como `rqrcode`) sobre
 > o texto de `code.to_s`.
 
+### Moeda
+
+> Disponível no `main`; sai na versão 0.2.0.
+
+```ruby
+require "bigdecimal"
+
+RailsBr::Currency.parse("R$ 1.234,56")  # => BigDecimal("1234.56")
+RailsBr::Currency.parse("-1.234")       # => BigDecimal("-1234")
+RailsBr::Currency.parse("1234.56")      # => nil (formato americano)
+RailsBr::Currency.parse!("abc")         # => raises RailsBr::InvalidValueError
+
+RailsBr::Currency.format(BigDecimal("1234.5"))             # => "R$ 1.234,50"
+RailsBr::Currency.format(BigDecimal("-1"), symbol: false)  # => "-1,00"
+```
+
+- **Leitura:** `R$` e sinal negativo são opcionais, e o espaço não separável é aceito. Um ponto seguido de
+  3 dígitos é sempre separador de milhar. Formato americano, milhar mal agrupado e mais de 2 casas são
+  rejeitados, sem adivinhar nem arredondar. Só `String` é lida.
+- **Formatação:** aceita `BigDecimal` ou `Integer`, nunca `Float`, com até 2 casas. Arredonde antes, com a
+  regra adequada ao seu caso.
+
 ### Validação no ActiveModel / Rails
 
 ```ruby
@@ -196,9 +219,10 @@ compatíveis:
 | Versão | Conteúdo |
 |---|---|
 | 0.1.0 | CPF, CNPJ (com alfanumérico), chave Pix, BR Code estático e validadores ActiveModel |
-| 0.2.0 | Moeda (`BigDecimal`) e número por extenso |
-| 0.3.0 | CEP (máscara e formato), dias úteis e feriados |
-| 0.4.0 | Boleto e linha digitável |
+| 0.2.0 | Moeda (`BigDecimal`) e data: leitura e formatação, com tipos e validadores ActiveModel |
+| 0.3.0 | Por extenso (números, valores e datas) |
+| 0.4.0 | CEP (máscara e formato), dias úteis e feriados |
+| 0.5.0 | Boleto e linha digitável |
 
 Fora do escopo por enquanto: consultas a APIs externas (como ViaCEP), Pix dinâmico e integração com PSPs.
 
