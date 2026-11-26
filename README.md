@@ -10,7 +10,7 @@ Helpers brasileiros para Ruby e Rails: **CPF**, **CNPJ** (inclusive o alfanumér
 **moeda** e **data**.
 Sucessora moderna da [Brazilian Rails](https://github.com/tapajos/brazilian-rails), arquivada desde 2018.
 
-> **Status:** versão 0.2.1. A API pode mudar até a 1.0, seguindo o [SemVer](https://semver.org/lang/pt-BR/).
+> **Status:** versão 0.3.0. A API pode mudar até a 1.0, seguindo o [SemVer](https://semver.org/lang/pt-BR/).
 
 ## Por que esta gem
 
@@ -28,7 +28,7 @@ Sucessora moderna da [Brazilian Rails](https://github.com/tapajos/brazilian-rail
 Adicione ao `Gemfile` e rode `bundle install`:
 
 ```ruby
-gem "rails-br", "~> 0.2"
+gem "rails-br", "~> 0.3"
 ```
 
 Ou instale diretamente:
@@ -289,9 +289,10 @@ ser mais nova.
 |---|---|
 | 0.1.0 | CPF, CNPJ (com alfanumérico), chave Pix, BR Code estático e validadores ActiveModel |
 | 0.2.0 | Moeda (`BigDecimal`) e data: leitura e formatação, com tipos e validadores ActiveModel |
-| 0.3.0 | Por extenso (números, valores e datas) |
-| 0.4.0 | CEP (máscara e formato), dias úteis e feriados |
-| 0.5.0 | Boleto e linha digitável |
+| 0.3.0 | Formulários no padrão brasileiro e valores com mais de 2 casas decimais (`scale:`) |
+| 0.4.0 | Por extenso (números, valores e datas) |
+| 0.5.0 | CEP (máscara e formato), dias úteis e feriados |
+| 0.6.0 | Boleto e linha digitável |
 
 Fora do escopo por enquanto: consultas a APIs externas (como ViaCEP), Pix dinâmico e integração com PSPs.
 

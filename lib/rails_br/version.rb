@@ -2,5 +2,5 @@
 
 module RailsBr
   # Versão da gem, seguindo o SemVer.
-  VERSION = "0.2.1"
+  VERSION = "0.3.0"
 end
