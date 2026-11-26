@@ -4,3 +4,5 @@ en:
       invalid_cpf: "is not a valid CPF"
       invalid_cnpj: "is not a valid CNPJ"
       invalid_pix_key: "is not a valid Pix key"
+      invalid_br_currency: "is not a valid amount in Brazilian reais"
+      invalid_br_date: "is not a valid date (dd/mm/yyyy)"

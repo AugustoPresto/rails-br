@@ -6,6 +6,8 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 ## [Não lançado]
 
 ### Adicionado
+- Tipos de atributo `:br_currency` e `:br_date` (ActiveModel e ActiveRecord) e validadores
+  `br_currency: true` e `br_date: true`, que acusam texto inválido.
 - `RailsBr::DateFormat`: leitura estrita (`parse`, `parse!`) e formatação (`format`) de datas `dd/mm/aaaa`.
 - `RailsBr::Currency`: leitura estrita (`parse`, `parse!`) e formatação (`format`) de valores em reais, sempre
   com `BigDecimal`.
