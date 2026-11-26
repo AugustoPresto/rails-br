@@ -1,5 +1,6 @@
 # rails-br
 
+[![Gem Version](https://img.shields.io/gem/v/rails-br.svg)](https://rubygems.org/gems/rails-br)
 [![CI](https://github.com/AugustoPresto/rails-br/actions/workflows/ci.yml/badge.svg)](https://github.com/AugustoPresto/rails-br/actions/workflows/ci.yml)
 [![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE.txt)
 ![Ruby](https://img.shields.io/badge/ruby-%E2%89%A5%202.7-red.svg)
@@ -24,11 +25,16 @@ Sucessora moderna da [Brazilian Rails](https://github.com/tapajos/brazilian-rail
 
 ## Instalação
 
-A gem ainda não está no RubyGems. Por enquanto, instale pelo Git, fixando a versão:
+Adicione ao `Gemfile` e rode `bundle install`:
 
 ```ruby
-# Gemfile
-gem "rails-br", github: "AugustoPresto/rails-br", tag: "v0.2.0"
+gem "rails-br", "~> 0.2"
+```
+
+Ou instale diretamente:
+
+```bash
+gem install rails-br
 ```
 
 Não há dependências de runtime além do `bigdecimal`. O Rails (`activemodel`) só é necessário se você
