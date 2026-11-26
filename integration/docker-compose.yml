@@ -28,6 +28,6 @@ services:
       args:
         RUBY_VERSION: ${RUBY_VERSION:-3.4}
         RAILS_VERSION: ${RAILS_VERSION:-8.0}
-        RAILS_BR_VERSION: ${RAILS_BR_VERSION:-0.2.1}
+        RAILS_BR_VERSION: ${RAILS_BR_VERSION:-0.3.0}
     volumes:
       - ./results:/results

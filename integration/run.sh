@@ -9,7 +9,7 @@ set -uo pipefail
 cd "$(dirname "$0")"
 mkdir -p results
 
-VERSION="${RAILS_BR_VERSION:-0.2.1}"
+VERSION="${RAILS_BR_VERSION:-0.3.0}"
 POSTGRES_MATRIX=("2.7 6.0" "2.7 6.1" "2.7 7.0" "2.7 7.1" "3.0 6.1" "3.0 7.0" "3.1 7.0" "3.1 7.1"
   "3.1 7.2" "3.2 7.1" "3.2 7.2" "3.2 8.0" "3.3 7.2" "3.3 8.0" "3.4 7.2" "3.4 8.0")
 MYSQL_MATRIX=("2.7 6.0" "3.1 7.0" "3.4 8.0")

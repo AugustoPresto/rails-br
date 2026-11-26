@@ -82,8 +82,11 @@ end
 
 probe.call("formulário: valor exibido após ler do banco") do
   order = Order.find(Order.create!(amount: "1.234,50", due_on: "05/01/2026").id)
-  { due_on_before_type_cast: order.due_on_before_type_cast.to_s,
-    amount_before_type_cast: order.amount_before_type_cast.to_s }
+  %i[due_on amount].to_h do |attribute|
+    html = ApplicationController.render(inline: "<%= text_field :order, attribute, object: order %>",
+                                        locals: { order: order, attribute: attribute })
+    [attribute, html[/\svalue="([^"]*)"/, 1]]
+  end
 end
 
 payload = { ruby: RUBY_VERSION, rails: Rails.version, banco: ActiveRecord::Base.connection.adapter_name, probes: results }

@@ -61,6 +61,32 @@ class PersistenceTest < ActiveSupport::TestCase
     assert_equal [order], Order.where("amount > ?", BigDecimal("49.99")).to_a
   end
 
+  test "valor gravado com 4 casas não bloqueia a atualização do registro" do
+    Entry.connection.execute("INSERT INTO entries (amount) VALUES (10.1234)")
+    entry = Entry.last
+
+    assert_equal BigDecimal("10.1234"), entry.amount
+    assert entry.valid?, entry.errors.full_messages.join(", ")
+    entry.amount = BigDecimal("1.005")
+    refute entry.valid?
+  end
+
+  test "com scale: 4 o texto brasileiro é gravado, lido e consultado" do
+    precise = Class.new(Entry) do
+      self.table_name = "entries"
+      attribute :amount, :br_currency, scale: 4
+      def self.name
+        "PreciseEntry"
+      end
+    end
+
+    entry = precise.create!(amount: "R$ 10,1234")
+
+    assert_equal BigDecimal("10.1234"), precise.find(entry.id).amount
+    assert_equal [entry.id], precise.where(amount: "10,1234").pluck(:id)
+    refute precise.new(amount: "1,00001").valid?
+  end
+
   test "10 mil documentos gerados fora da gem são aceitos e os adulterados, rejeitados" do
     random = Random.new(2026)
     10_000.times do |i|

@@ -10,13 +10,14 @@ publicada no RubyGems** e roda contra um banco de verdade. Requer Docker com Com
 ./run.sh scale 3.4 8.0    # carga com 1 milhão de registros
 ```
 
-`RAILS_BR_VERSION=0.2.1 ./run.sh` escolhe a versão da gem. Os resultados ficam em `results/` (fora do Git).
+`RAILS_BR_VERSION=0.3.0 ./run.sh` escolhe a versão da gem. Os testes de formulário e de casas decimais
+exigem a 0.3.0 ou mais nova. Os resultados ficam em `results/` (fora do Git).
 
 ## O que é verificado
 
 | Etapa | Conteúdo |
 |---|---|
-| Testes do app | Boot e `eager_load`, validadores e tipos pelo Railtie, mensagens em pt-BR, gravação e releitura, agregações e consultas, formulários HTTP, parâmetros inesperados e 10 mil documentos gerados fora da gem |
+| Testes do app | Boot e `eager_load`, validadores e tipos pelo Railtie, mensagens em pt-BR, gravação e releitura, agregações e consultas, reenvio do formulário de edição, valores com 4 casas, formulários HTTP, parâmetros inesperados e 10 mil documentos gerados fora da gem |
 | Sondagem | Registra o comportamento em casos de risco (`insert_all`, `update_all`, consultas, dados legados) |
 | Produção | Puma com 16 threads e 3.200 requisições simultâneas, com cada resposta conferida |
 | Sem Rails | A gem num Ruby puro, incluindo o primeiro uso concorrente dos módulos carregados sob demanda |

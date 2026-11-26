@@ -36,6 +36,22 @@ class RequestsTest < ActionDispatch::IntegrationTest
     assert_response 422
   end
 
+  test "o formulário de edição aceita de volta o que mostrou" do
+    id = Order.create!(amount: "R$ 1.234,50", due_on: "05/01/2026").id
+    order = Order.find(id)
+
+    shown = %i[amount due_on].to_h do |attribute|
+      html = ApplicationController.render(inline: "<%= text_field :order, attribute, object: order %>",
+                                          locals: { order: order, attribute: attribute })
+      [attribute, html[/\svalue="([^"]*)"/, 1]]
+    end
+    order.assign_attributes(shown)
+
+    assert_equal({ amount: "1.234,50", due_on: "05/01/2026" }, shown)
+    assert order.valid?, order.errors.full_messages.join(", ")
+    refute order.changed?
+  end
+
   test "gera um BR Code que a própria gem valida" do
     get "/pix", params: { key: "pix@example.com", name: "Loja São João", city: "Goiânia", amount: "R$ 99,90" }
 
