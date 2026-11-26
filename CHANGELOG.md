@@ -5,6 +5,8 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+## [0.2.0] - 2026-11-26
+
 ### Adicionado
 - Tipos de atributo `:br_currency` e `:br_date` (ActiveModel e ActiveRecord) e validadores
   `br_currency: true` e `br_date: true`, que acusam texto inválido.

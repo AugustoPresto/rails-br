@@ -5,10 +5,11 @@
 ![Ruby](https://img.shields.io/badge/ruby-%E2%89%A5%202.7-red.svg)
 ![Rails](https://img.shields.io/badge/rails-%E2%89%A5%206.0%20(opcional)-red.svg)
 
-Helpers brasileiros para Ruby e Rails: **CPF**, **CNPJ** (inclusive o alfanumérico) e **Pix** (chaves e BR Code).
+Helpers brasileiros para Ruby e Rails: **CPF**, **CNPJ** (inclusive o alfanumérico), **Pix** (chaves e BR Code),
+**moeda** e **data**.
 Sucessora moderna da [Brazilian Rails](https://github.com/tapajos/brazilian-rails), arquivada desde 2018.
 
-> **Status:** versão 0.1.0. A API pode mudar até a 1.0, seguindo o [SemVer](https://semver.org/lang/pt-BR/).
+> **Status:** versão 0.2.0. A API pode mudar até a 1.0, seguindo o [SemVer](https://semver.org/lang/pt-BR/).
 
 ## Por que esta gem
 
@@ -27,11 +28,11 @@ A gem ainda não está no RubyGems. Por enquanto, instale pelo Git, fixando a ve
 
 ```ruby
 # Gemfile
-gem "rails-br", github: "AugustoPresto/rails-br", tag: "v0.1.0"
+gem "rails-br", github: "AugustoPresto/rails-br", tag: "v0.2.0"
 ```
 
 Não há dependências de runtime além do `bigdecimal`. O Rails (`activemodel`) só é necessário se você
-usar os validadores.
+usar os validadores ou os tipos de atributo.
 
 ## Recursos
 
@@ -41,10 +42,10 @@ usar os validadores.
 | CNPJ | `RailsBr::CNPJ` | Validar e formatar, no formato numérico e no alfanumérico |
 | Chave Pix | `RailsBr::Pix::Key` | Detectar o tipo e validar (CPF, CNPJ, telefone, e-mail, chave aleatória) |
 | BR Code | `RailsBr::Pix::BRCode` | Ler, validar e gerar o "Pix copia e cola" |
-| Moeda (a partir da 0.2.0) | `RailsBr::Currency` | Ler e formatar valores em reais |
-| Data (a partir da 0.2.0) | `RailsBr::DateFormat` | Ler e formatar datas `dd/mm/aaaa` |
-| ActiveModel | `cpf`, `cnpj`, `pix_key` | Validadores com mensagens em `pt-BR` e `en` |
-| Tipos (a partir da 0.2.0) | `:br_currency`, `:br_date` | Atributos que leem texto brasileiro, com validadores |
+| Moeda | `RailsBr::Currency` | Ler e formatar valores em reais |
+| Data | `RailsBr::DateFormat` | Ler e formatar datas `dd/mm/aaaa` |
+| ActiveModel | `cpf`, `cnpj`, `pix_key`, `br_currency`, `br_date` | Validadores com mensagens em `pt-BR` e `en` |
+| Tipos | `:br_currency`, `:br_date` | Atributos que leem texto brasileiro, com validadores |
 
 Todas as classes são carregadas sob demanda: `require "rails_br"` registra tudo, e cada módulo só é lido do
 disco no primeiro uso.
@@ -154,8 +155,6 @@ remover os acentos. Dados inválidos levantam `RailsBr::InvalidValueError`.
 
 ### Moeda
 
-> Disponível no `main`; sai na versão 0.2.0.
-
 ```ruby
 require "bigdecimal"
 
@@ -175,8 +174,6 @@ RailsBr::Currency.format(BigDecimal("-1"), symbol: false)  # => "-1,00"
   regra adequada ao seu caso.
 
 ### Data
-
-> Disponível no `main`; sai na versão 0.2.0.
 
 ```ruby
 require "date"
@@ -206,12 +203,12 @@ No Rails, os validadores e as traduções (`pt-BR` e `en`) são carregados autom
 `require "rails_br/validators"` (requer `activemodel`). Valores em branco são ignorados; combine com
 `presence: true` para exigir o campo.
 
-As mensagens ficam em `errors.messages.invalid_cpf`, `invalid_cnpj` e `invalid_pix_key`, e podem ser
-sobrescritas no `config/locales` da sua aplicação ou com `message:`.
+As mensagens ficam em `errors.messages.invalid_cpf`, `invalid_cnpj`, `invalid_pix_key`,
+`invalid_br_currency` e `invalid_br_date`, e podem ser sobrescritas no `config/locales` da sua aplicação
+ou com `message:`. As mensagens padrão do Rails em português (como a do `presence`) não fazem parte desta gem:
+use, por exemplo, a `rails-i18n`.
 
 ### Atributos `:br_currency` e `:br_date`
-
-> Disponível no `main`; sai na versão 0.2.0.
 
 ```ruby
 class Order < ApplicationRecord
@@ -244,8 +241,9 @@ order.valid?  # => false, com "não é um valor em reais válido" no locale pt-B
 
 ## Erros
 
-Todos os erros herdam de `RailsBr::Error`. Os métodos `valid?` nunca levantam exceção; os `parse!` e o
-`BRCode.static` levantam `RailsBr::InvalidValueError` com a descrição do problema.
+Todos os erros herdam de `RailsBr::Error`. Os métodos `valid?` nunca levantam exceção, e os `parse` de moeda e
+data devolvem `nil`. Os `parse!`, o `BRCode.static` e os `format` de moeda e data levantam
+`RailsBr::InvalidValueError` com a descrição do problema.
 
 ## Compatibilidade
 

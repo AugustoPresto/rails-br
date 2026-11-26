@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version = RailsBr::VERSION
   spec.authors = ["Augusto Souza"]
 
-  spec.summary = "Helpers brasileiros para Ruby e Rails: CPF, CNPJ (inclusive alfanumérico) e Pix."
+  spec.summary = "Helpers brasileiros para Ruby e Rails: CPF, CNPJ (inclusive alfanumérico), Pix, moeda e data."
   spec.description = "Sucessora moderna da Brazilian Rails. Núcleo em Ruby puro, sem monkey patching, " \
                      "com integração opcional ao Rails (ActiveModel, I18n) a partir do Rails 6.0."
   spec.homepage = "https://github.com/AugustoPresto/rails-br"
