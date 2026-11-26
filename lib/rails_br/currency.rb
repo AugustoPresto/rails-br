@@ -2,6 +2,7 @@
 
 require "bigdecimal"
 require_relative "error"
+require_relative "text_input"
 
 module RailsBr
   # Leitura e formatação de valores em reais (`R$ 1.234,56`).
@@ -40,7 +41,7 @@ module RailsBr
     #   `Float`) resulta em `nil`
     # @return [BigDecimal, nil] o valor, ou `nil` se o texto for inválido
     def self.parse(value)
-      match = FORMAT.match(value) if readable?(value)
+      match = FORMAT.match(value) if TextInput.readable?(value)
       match && signed_amount(match)
     end
 
@@ -70,10 +71,6 @@ module RailsBr
       amount.negative? && !amount.zero? ? "-#{number}" : number
     end
 
-    def self.readable?(value)
-      value.is_a?(String) && value.encoding.ascii_compatible? && value.valid_encoding?
-    end
-
     # Devolve `nil` quando há sinal antes e depois do símbolo.
     def self.signed_amount(match)
       signs = [match[:leading_sign], match[:inner_sign]].compact
@@ -97,6 +94,6 @@ module RailsBr
     def self.group_thousands(integer)
       integer.reverse.scan(/\d{1,3}/).join(".").reverse
     end
-    private_class_method :readable?, :signed_amount, :to_amount, :group_thousands
+    private_class_method :signed_amount, :to_amount, :group_thousands
   end
 end

@@ -14,6 +14,8 @@ module RailsBr
   autoload :CNPJ, "rails_br/cnpj"
   autoload :Pix, "rails_br/pix"
   autoload :Currency, "rails_br/currency"
+  autoload :DateFormat, "rails_br/date_format"
+  autoload :TextInput, "rails_br/text_input"
   autoload :Locale, "rails_br/locale"
 end
 
