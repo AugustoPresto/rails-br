@@ -26,6 +26,19 @@ module RailsBr
         scale || Currency::SCALE
       end
 
+      # Texto de um campo de formulário. Só valores já convertidos são
+      # formatados, com todas as casas (nada é arredondado); texto digitado e
+      # outros objetos voltam como estão.
+      #
+      # @param value [Object, nil]
+      # @return [Object] como `"1.234,56"`
+      def format_input(value)
+        return value unless value.is_a?(Integer) || (value.is_a?(BigDecimal) && value.finite?)
+
+        # O comprimento do número por extenso é um limite folgado para as casas.
+        Currency.format(value, symbol: false, scale: BigDecimal(value.to_s).to_s("F").length)
+      end
+
       # Converte o valor lido do banco de dados.
       #
       # @param value [Object, nil]
