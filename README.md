@@ -240,9 +240,12 @@ order.valid?  # => false, com "não é um valor em reais válido" no locale pt-B
   `allow_blank` não escondem o erro. Com `presence: true`, um texto inválido acusa também o campo em branco.
 - Texto é sempre lido no padrão brasileiro, inclusive em consultas: `where(due_on: "31/12/2026")` funciona, mas
   `where(due_on: "2026-12-31")` não. Prefira passar um `Date`.
-- `<input type="date">` (`date_field`) envia `aaaa-mm-dd`, que o `:br_date` rejeita. Use `text_field` e preencha o
-  valor com `RailsBr::DateFormat.format(order.due_on)` ao editar um registro salvo. O mesmo vale para a moeda, com
-  `RailsBr::Currency.format`.
+- No Rails, `text_field`, `search_field`, `telephone_field` e `hidden_field` mostram esses atributos no padrão
+  brasileiro (`1.234,56` e `31/12/2026`), inclusive ao editar um registro salvo. Para usar outro texto, informe
+  `value:`.
+- `<input type="date">` (`date_field`) envia `aaaa-mm-dd`, que o `:br_date` rejeita. Use `text_field`.
+- Em JSON, os valores continuam no padrão do Rails (`"1234.5"`, `"2026-01-05"`); formate com
+  `RailsBr::Currency.format` e `RailsBr::DateFormat.format` se a API receber de volta texto brasileiro.
 - Na migração, defina a precisão da coluna (por exemplo `precision: 10, scale: 2`).
 - São aceitas 2 casas decimais. Para colunas mais precisas (preço unitário, cotação), declare a mesma escala no
   atributo: `attribute :unit_price, :br_currency, scale: 4`. Um valor já gravado com mais casas não impede

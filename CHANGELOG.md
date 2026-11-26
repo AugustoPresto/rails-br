@@ -9,6 +9,8 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 - `scale:` no tipo `:br_currency` e em `Currency.parse`, `parse!` e `format`, para valores com mais de 2 casas.
 
 ### Corrigido
+- Formulários de edição mostram `:br_currency` e `:br_date` no padrão brasileiro. Antes apareciam como `1234.5` e
+  `2026-01-05`, e reenviar sem mudar nada era rejeitado.
 - Um valor lido do banco com mais de 2 casas decimais não torna mais o registro inválido.
 
 ## [0.2.1] - 2026-11-26

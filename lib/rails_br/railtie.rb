@@ -16,5 +16,13 @@ module RailsBr
     initializer "rails_br.types" do
       require "rails_br/types" if defined?(ActiveModel)
     end
+
+    # Mostra `:br_currency` e `:br_date` no padrão brasileiro nos formulários.
+    initializer "rails_br.form_values" do
+      ActiveSupport.on_load(:action_view) do
+        require "rails_br/form_values"
+        RailsBr::FormValues.install!
+      end
+    end
   end
 end

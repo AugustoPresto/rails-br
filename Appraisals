@@ -6,6 +6,8 @@
   appraise "rails-#{version.tr('.', '-')}" do
     gem "railties", "~> #{version}.0"
     gem "activemodel", "~> #{version}.0"
+    # ActionView, para os testes dos campos de formulário.
+    gem "actionview", "~> #{version}.0"
     # ActiveRecord e SQLite, para os testes de integração dos tipos.
     gem "activerecord", "~> #{version}.0"
     # sqlite3 1.7+ não instala no Ruby 2.7, usado com o Rails < 7.2.

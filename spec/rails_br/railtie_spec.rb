@@ -31,6 +31,14 @@ RSpec.describe "RailsBr::Railtie", if: defined?(Rails::Railtie) do
     expect(ActiveModel::Type.lookup(:br_date)).to be_a(RailsBr::Types::BrDate)
   end
 
+  it "instala a formatação dos formulários quando o ActionView carrega" do
+    require "action_view"
+    initializer("rails_br.form_values").run(Object.new)
+    ActionView::Base # rubocop:disable Lint/Void -- dispara o hook
+
+    expect(ActionView::Helpers::Tags::TextField.ancestors).to include(RailsBr::FormValues::TextField)
+  end
+
   it "carrega os validadores quando o ActiveModel está presente" do
     require "active_model"
     initializer("rails_br.validators").run(Object.new)

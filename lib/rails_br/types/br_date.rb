@@ -20,6 +20,15 @@ module RailsBr
         :date
       end
 
+      # Texto de um campo de formulário. Só datas são formatadas; texto digitado
+      # e outros objetos voltam como estão.
+      #
+      # @param value [Object, nil]
+      # @return [Object] como `"31/12/2026"`
+      def format_input(value)
+        value.is_a?(Date) && DateFormat::YEARS.cover?(value.year) ? DateFormat.format(value) : value
+      end
+
       # Converte o valor lido do banco de dados.
       #
       # @param value [Object, nil]

@@ -45,6 +45,9 @@ Uma execução por combinação, numa única máquina (8 núcleos). Servem de or
 
 ## Defeitos
 
+Os dois foram corrigidos no código depois deste relatório e ainda não estão em uma versão publicada. A correção foi
+conferida em apps com Ruby 2.7/Rails 6.0 e Ruby 3.4/Rails 8.0, usando a gem do repositório.
+
 ### 1. Formulário de edição rejeita o próprio valor salvo
 
 Um registro lido do banco aparece no `text_field` como `1234.5` e `2026-01-05`. Reenviar **sem mudar nada** falha:
