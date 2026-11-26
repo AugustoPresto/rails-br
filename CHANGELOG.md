@@ -5,6 +5,12 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+## [0.2.1] - 2026-11-26
+
+### Alterado
+- A dependência `bigdecimal` passa a ter teto (`>= 2.0`, `< 5`), o que elimina o aviso do `gem build`.
+- README do pacote atualizado: instalação pelo RubyGems.
+
 ## [0.2.0] - 2026-11-26
 
 ### Adicionado
