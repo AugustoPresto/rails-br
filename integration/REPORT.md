@@ -45,8 +45,8 @@ Uma execução por combinação, numa única máquina (8 núcleos). Servem de or
 
 ## Defeitos
 
-Os dois foram corrigidos no código depois deste relatório e ainda não estão em uma versão publicada. A correção foi
-conferida em apps com Ruby 2.7/Rails 6.0 e Ruby 3.4/Rails 8.0, usando a gem do repositório.
+Os dois foram corrigidos na versão 0.3.0, depois deste relatório. As correções foram conferidas nas 16 combinações
+de apps com PostgreSQL, usando o código da 0.3.0 antes da publicação.
 
 ### 1. Formulário de edição rejeita o próprio valor salvo
 

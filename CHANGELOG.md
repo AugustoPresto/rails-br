@@ -5,6 +5,8 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+## [0.3.0] - 2026-11-26
+
 ### Adicionado
 - `scale:` no tipo `:br_currency` e em `Currency.parse`, `parse!` e `format`, para valores com mais de 2 casas.
 
