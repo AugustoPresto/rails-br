@@ -15,7 +15,7 @@ module ActiveModel
         :invalid_br_date
       end
 
-      def acceptable?(value)
+      def acceptable?(value, _record, _attribute)
         case value
         when String then !RailsBr::DateFormat.parse(value).nil?
         else value.is_a?(Date)

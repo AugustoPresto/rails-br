@@ -24,7 +24,7 @@ module RailsBr
     # @return [void]
     def validate_each(record, attribute, value)
       candidate = value.nil? ? raw_value(record, attribute) : value
-      return if candidate.blank? || acceptable?(candidate)
+      return if candidate.blank? || acceptable?(candidate, record, attribute)
 
       record.errors.add(attribute, error_key, **options, value: candidate)
     end

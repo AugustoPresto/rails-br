@@ -5,6 +5,12 @@ versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+### Adicionado
+- `scale:` no tipo `:br_currency` e em `Currency.parse`, `parse!` e `format`, para valores com mais de 2 casas.
+
+### Corrigido
+- Um valor lido do banco com mais de 2 casas decimais não torna mais o registro inválido.
+
 ## [0.2.1] - 2026-11-26
 
 ### Alterado

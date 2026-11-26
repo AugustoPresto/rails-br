@@ -34,6 +34,7 @@ RSpec.describe "RailsBr::Types::ActiveRecord", if: defined?(ActiveRecord) && def
       create_table :orders, force: true do |t|
         t.decimal :price, precision: 10, scale: 2
         t.date :born_on
+        t.decimal :unit_price, precision: 16, scale: 4
       end
     end
   end
@@ -76,5 +77,51 @@ RSpec.describe "RailsBr::Types::ActiveRecord", if: defined?(ActiveRecord) && def
     expect(order.save).to be(false)
     expect(order.errors.messages.keys).to contain_exactly(:price, :born_on)
     expect(model.count).to eq(0)
+  end
+
+  describe "coluna com mais de 2 casas decimais" do
+    let(:plain_scale) do
+      Class.new(model) do
+        attribute :unit_price, :br_currency
+        validates :unit_price, br_currency: true
+      end
+    end
+    let(:four_places) do
+      Class.new(model) do
+        attribute :unit_price, :br_currency, scale: 4
+        validates :unit_price, br_currency: true
+      end
+    end
+
+    def stored_id
+      model.connection.insert("INSERT INTO orders (unit_price) VALUES (10.1234)")
+    end
+
+    it "não bloqueia a atualização de um registro por causa do valor já gravado", :aggregate_failures do
+      order = plain_scale.find(stored_id)
+
+      expect(order).to be_valid
+      expect(order.update(born_on: "01/01/2026")).to be(true)
+    end
+
+    it "continua acusando um valor novo com casas demais", :aggregate_failures do
+      order = plain_scale.find(stored_id)
+      order.unit_price = BigDecimal("1.005")
+
+      expect(order).not_to be_valid
+    end
+
+    it "lê, grava e consulta com a escala declarada", :aggregate_failures do
+      order = four_places.create!(unit_price: "R$ 10,1234")
+
+      expect(four_places.find(order.id).unit_price).to eq(BigDecimal("10.1234"))
+      expect(four_places.where(unit_price: "10,1234").to_a).to eq([order])
+    end
+
+    it "acusa mais casas que a escala declarada", :aggregate_failures do
+      expect(four_places.new(unit_price: "1,00001")).not_to be_valid
+      expect(four_places.new(unit_price: BigDecimal("1.00001"))).not_to be_valid
+      expect(four_places.new(unit_price: BigDecimal("1.0001"))).to be_valid
+    end
   end
 end

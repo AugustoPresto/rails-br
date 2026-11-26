@@ -10,12 +10,20 @@ module RailsBr
     # `BigDecimal`. Texto inválido e `Float` viram `nil`; use o validador
     # `br_currency: true` para acusar o erro.
     #
+    # São aceitas 2 casas decimais; para colunas mais precisas, informe `scale:`.
+    #
     # @example
     #   attribute :price, :br_currency
+    #   attribute :unit_price, :br_currency, scale: 4
     class BrCurrency < ActiveModel::Type::Value
       # @return [Symbol] `:decimal`, como o tipo decimal do Rails
       def type
         :decimal
+      end
+
+      # @return [Integer] máximo de casas decimais aceitas na entrada
+      def decimal_places
+        scale || Currency::SCALE
       end
 
       # Converte o valor lido do banco de dados.
@@ -38,7 +46,7 @@ module RailsBr
 
       def cast_value(value)
         case value
-        when String then Currency.parse(value)
+        when String then Currency.parse(value, scale: decimal_places)
         when BigDecimal then value
         when Integer then BigDecimal(value)
         end
